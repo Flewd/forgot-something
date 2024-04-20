@@ -14,6 +14,7 @@ import 'scenes/HamScene'
 import 'scenes/IntroCutscene'
 
 import "objects/Word"
+import "objects/AnimatedActor"
 
 Noble.Settings.setup({
 	Difficulty = "Medium"

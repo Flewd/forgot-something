@@ -2,16 +2,6 @@ local gfx <const> = playdate.graphics
 
 class('Word').extends()
 
-local function renderShards(self)
-  
-end
-
-local function renderExplosion(self)
-    
-end
-
-
-
 function Word:init(text, x, y, score)
     --Word.super.init()
     self.text = text
@@ -30,6 +20,6 @@ function Word:render()
     --renderExplosion(self)
 
     gfx.drawText(self.text, self.posX,self.posY)
-    gfx.drawText(self.score, self.posX,self.posY + 40)
+    --gfx.drawText(self.posX, self.posX,self.posY + 40)
 
 end
