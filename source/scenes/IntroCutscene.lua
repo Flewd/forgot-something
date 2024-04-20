@@ -12,17 +12,12 @@
 -- !!! Rename "SceneTemplate" to your scene's name in these first three lines. !!!
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-import "CoreLibs/object"
-import "CoreLibs/graphics"
-import "CoreLibs/math"
-import "CoreLibs/sprites"
-import "utilities/time"
 
 local gfx <const> = playdate.graphics
 
 SceneTemplate = {}
-class("GameStartScene").extends(NobleScene)
-local scene = GameStartScene
+class("IntroCutscene").extends(NobleScene)
+local scene = IntroCutscene
 
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -45,8 +40,8 @@ scene.backgroundColor = Graphics.kColorWhite
 function scene:init()
 	scene.super.init(self)
 
-	scene.score = 0
-	 print("Hello")
+	scene.background = Graphics.image.new("assets/images/hmmmApple")
+
 	-- SceneTemplate.variable2 = "string"
 	-- ...
 
@@ -77,7 +72,9 @@ function scene:drawBackground()
 	scene.super.drawBackground(self)
 	-- Your code here
 
-	gfx.drawText("Score: " .. tostring(scene.score), 50,50)
+	scene.background:draw(0,0)
+
+
 	--Noble.Text.draw(score, 20, 20, Noble.Text.ALIGN_LEFT, false, Noble.Text.getCurrentFont())
 end
 
@@ -112,6 +109,7 @@ scene.inputHandler = {
 	--
 	AButtonDown = function()			-- Runs once when button is pressed.
 		-- Your code here
+		Noble.transition(HamScene, nil, Noble.Transition.Spotlight);
 	end,
 	AButtonHold = function()			-- Runs every frame while the player is holding button down.
 		-- Your code here
@@ -190,7 +188,6 @@ scene.inputHandler = {
 	--
 	cranked = function(change, acceleratedChange)	-- Runs when the crank is rotated. See Playdate SDK documentation for details.
 		-- Your code here
-		scene.score = scene.score + change
 	end,
 	crankDocked = function()						-- Runs once when when crank is docked.
 		-- Your code here

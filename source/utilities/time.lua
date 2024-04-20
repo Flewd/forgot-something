@@ -1,5 +1,3 @@
-import "CoreLibs/timer"
-
 local lastTime = 0
 local deltaTimeMS = 0
 local deltaTimeSeconds = 0
