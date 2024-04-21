@@ -40,20 +40,16 @@ scene.backgroundColor = Graphics.kColorWhite
 function scene:init()
 	scene.super.init(self)
 
-	local font = gfx.font.new("assets/fonts/diamond_20");
+	scene.font = gfx.font.new("assets/fonts/Sasser-Slab-EXBold");
     -- kVariantNormal
     -- kVariantBold
     -- kVariantItalic
-	gfx.setFont(font, gfx.font.kVariantNormal)
+
+	scene.brainBg = Actor("assets/images/endcardGood", 0, 0)
 
 	--scene.background = Graphics.image.new("assets/images/end1")
-	
-
-	
+		
 	-- SceneTemplate.variable2 = "string"
-	-- ...
-
-	-- Your code here
 end
 
 -- When transitioning from another scene, this runs as soon as this
@@ -86,13 +82,40 @@ function scene:drawBackground()
 	local prompts = GetPrompts()
 	--print(words[1][1])
 
-	for i=1, #words do
-		local word = words[i]
-		local prompt = prompts[i]
-		gfx.drawText(prompt .. " " .. word.text, 50, i * 25)
-	end
+	scene.brainBg:render()
+	local word = words[1]
+	local prompt = prompts[1]
 
-	gfx.drawText("Created By: Amelia & Mike", 20, 200)
+	gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+	
+	--local fWidth, fHeight = font:getTextWidth("EDIT"), font:getHeight()
+
+	local screenWidth = 200
+	local wordDistance = 60
+	local y = 25
+
+	gfx.setFont(scene.font, gfx.font.kVariantNormal)
+
+	local width = scene.font:getTextWidth(words[1].text)
+	local x = screenWidth - (width/2)
+	gfx.drawText(words[1].text, x, y)
+	y = y + wordDistance
+	print(width)
+
+	width = scene.font:getTextWidth(words[2].text)
+	x = screenWidth - (width/2)
+	gfx.drawText(words[2].text, x, y)
+	y = y + wordDistance
+	print(width)
+
+	width = scene.font:getTextWidth(words[3].text)
+	x = screenWidth - (width/2)
+	gfx.drawText(words[3].text, x, y)
+	y = y + wordDistance
+	print(width)
+
+	gfx.setImageDrawMode(gfx.kDrawModeCopy)
+	-- gfx.drawText("Created By: Amelia & Mike", 0, 200)
 	--Noble.Text.draw(score, 20, 20, Noble.Text.ALIGN_LEFT, false, Noble.Text.getCurrentFont())
 end
 
@@ -127,7 +150,7 @@ scene.inputHandler = {
 	--
 	AButtonDown = function()			-- Runs once when button is pressed.
 		-- Your code here
-		Noble.transition(TitleScene, nil, Noble.Transition.SlideOffUp);
+		Noble.transition(IntroCutscene, nil, Noble.Transition.DIP_TO_BLACK);
 	end,
 	AButtonHold = function()			-- Runs every frame while the player is holding button down.
 		-- Your code here

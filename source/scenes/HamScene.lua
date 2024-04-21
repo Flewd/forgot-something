@@ -41,7 +41,7 @@ local levelDataWords = {
 	{
 		{"Office", 10},	-- row 3
 		{"Home", 30},
-		{"Coffe Shop", 50},
+		{"Coffee Shop", 50},
 		{"Junk1", 1},
 		{"Junk2", 50},
 	}
@@ -53,17 +53,31 @@ local signsText = {
 	"at the",
 }
 
+local drawModeIndex = 1
+local drawModes = {
+	gfx.kDrawModeCopy,
+	gfx.kDrawModeWhiteTransparent,
+	gfx.kDrawModeBlackTransparent,
+	gfx.kDrawModeFillWhite,
+	gfx.kDrawModeFillBlack,
+	gfx.kDrawModeXOR,
+	gfx.kDrawModeNXOR,
+	gfx.kDrawModeInverted,
+}
+
 local signs = {
 	"assets/images/sign_youForgot",
 	"assets/images/sign_while",
 	"assets/images/sign_atThe",
 }
 
+local SELECTION_TIME = 9
+
 local SCREEN_WIDTH = 400
 local SCREEN_HEIGHT = 240
 
 local NUMBER_OF_SCROLLING_WORDS = 3
-local WORD_GAP = 175
+local WORD_GAP = 225
 
 local CONFIRM_WIDTH = 175
 local CONFIRM_START = SCREEN_WIDTH/2 - CONFIRM_WIDTH/2
@@ -89,17 +103,25 @@ function scene:init()
 	scene.levelWordSetIndex = 1
 	scene.choosingWordIndex = 1
 
+	scene.timer = SELECTION_TIME
+
+	gfx.setImageDrawMode(gfx.kDrawModeCopy)
+	
 	for i=1, NUMBER_OF_SCROLLING_WORDS, 1 do
 		scene:newWord()
 	end
 
-    local font = gfx.font.new("assets/fonts/diamond_12");
+    scene.wordFont = gfx.font.new("assets/fonts/Sasser-Slab-EXBold");
+	--scene.timerFont = gfx.font.new("assets/fonts/Sasser-Slab-Bold");
     -- kVariantNormal
     -- kVariantBold
     -- kVariantItalic
-	gfx.setFont(font, gfx.font.kVariantNormal)
+	gfx.setFont(scene.wordFont, gfx.font.kVariantNormal)
 
 	scene.actors = {}
+	scene.brainBg = Actor("assets/images/bgBrain02", 0, 0)
+	scene.clock = Actor("assets/images/clock", -10, 180)
+
 	scene.wheel = AnimatedActor("assets/images/wheel-table-400-240",0,0,100)
 	scene.ham = AnimatedActor("assets/images/hamster-table-116-78",150,150,100)
 	scene.track1 = AnimatedActor("assets/images/activeSign-table-303-115",50,0,100)
@@ -125,7 +147,7 @@ function scene:newWord()
 		xPos = 0;
 	end
 
-	table.insert(scene.activeWords, Word(text, xPos, 75, score));
+	table.insert(scene.activeWords, Word(text, xPos, 80, score));
 	scene.nextWordIndex = scene.nextWordIndex + 1
 
 	local wordDataCount = Utilities.tableItemCount(levelWordSet)
@@ -168,6 +190,14 @@ function scene:update()
 	scene.super.update(self)
 
 	UpdateTimers()
+	scene.timer = scene.timer - DeltaTimeSeconds()
+
+	if scene.timer <= 0 then 
+		scene.timer = 0
+
+		scene:forceLockInWord()
+		scene.timer = SELECTION_TIME
+	end
 
 	--print("Start coroutine")
 	while scene.bringingInNewWord do
@@ -175,9 +205,6 @@ function scene:update()
 		scene:newWordUpdate()
 	end
 	--print("End coroutine")
-
-
-	gfx.setImageDrawMode(gfx.kDrawModeNXOR)
 
 	local removeList = {}
 
@@ -204,22 +231,28 @@ end
 -- This runs once per frame, and is meant for drawing code.
 function scene:drawBackground()
 	scene.super.drawBackground(self)
+	scene.brainBg:render()
+
+	gfx.setFont(scene.wordFont, gfx.font.kVariantNormal)
+	for i=1, #scene.activeWords do
+		local word = scene.activeWords[i]
+		word:render()
+	end
 
 	for i=1, #scene.actors do
 		scene.actors[i]:setVelocity(scene.velocity)
 		scene.actors[i]:render()
 	end
 
-	for i=1, #scene.activeWords do
-		local word = scene.activeWords[i]
-		word:render()
-	end
-
-	gfx.setColor(gfx.kColorWhite) -- Setting the draw color to white
+	--gfx.setColor(gfx.kColorWhite) -- Setting the draw color to white
 	--gfx.drawLine(CONFIRM_START,0,CONFIRM_START,200)
 	--gfx.drawLine(CONFIRM_END,0,CONFIRM_END,200)
 
 	scene.sign:render()
+
+	scene.clock:render()
+	--gfx.setFont(scene.timerFont, gfx.font.kVariantNormal)
+	gfx.drawText(math.floor(scene.timer), 10, 205)
 
 end
 
@@ -245,8 +278,6 @@ function scene:newWordUpdate()
 	for i=1, NUMBER_OF_SCROLLING_WORDS, 1 do
 		scene:newWord()
 	end
-
-	print("NEW WORDS")
 	--scene:waitSeconds(1)
 	
 	scene.bringingInNewWord = false;
@@ -276,21 +307,44 @@ function scene:resume()
 
 end
 
+function scene:forceLockInWord()
+
+	local midpoint = SCREEN_WIDTH/2
+	local closestWord = scene.activeWords[1]
+	local dist = math.abs(closestWord.posX - midpoint) 
+
+	for i=2, #scene.activeWords do
+		local word = scene.activeWords[i]
+		local wordDist = math.abs(word.posX - midpoint) 
+		if wordDist < dist then
+			dist = wordDist
+			closestWord = word
+		end
+	end
+
+	AddChosenWord(closestWord)
+	print("Locked in: " .. closestWord.text .. " at word set " .. scene.levelWordSetIndex)
+
+	if(scene.levelWordSetIndex > 2) then
+		Noble.transition(ResultsScene, nil, Noble.Transition.DIP_TO_BLACK);
+	else
+		scene.bringingInNewWord = true;
+	end
+
+end
+
 function scene:tryLockInWord()
 	for i=1, #scene.activeWords do
 		local word = scene.activeWords[i]
 		if word.posX >= CONFIRM_START and word.posX <= CONFIRM_END then
-
-			print(word.text)
+			
 			AddChosenWord(word)
 			
-
-
 			--table.insert(scene.chosenWords, scene.choosingWordIndex, word)
 			print("Locked in: " .. word.text .. " at word set " .. scene.levelWordSetIndex)
 
 			if(scene.levelWordSetIndex > 2) then
-				Noble.transition(ResultsScene, nil, Noble.Transition.SlideOffUp);
+				Noble.transition(ResultsScene, nil, Noble.Transition.DIP_TO_BLACK);
 			else
 				scene.bringingInNewWord = true;
 			end
@@ -361,6 +415,15 @@ scene.inputHandler = {
 
 	-- D-pad up
 	upButtonDown = function()
+		--[[
+		drawModeIndex = drawModeIndex + 1
+		if drawModeIndex > 8 then 
+			drawModeIndex = 1
+		end
+
+		print(drawModes[drawModeIndex])
+		]]
+		
 	end,
 	upButtonHold = function()
 	end,
@@ -369,6 +432,13 @@ scene.inputHandler = {
 
 	-- D-pad down
 	downButtonDown = function()
+		--[[
+		drawModeIndex = drawModeIndex - 1
+		if drawModeIndex < 1 then 
+			drawModeIndex = 8
+		end
+		print(drawModes[drawModeIndex])
+		]]
 	end,
 	downButtonHold = function()
 	end,

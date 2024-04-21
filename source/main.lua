@@ -28,9 +28,9 @@ Noble.Settings.setup({
 Noble.GameData.setup({
 })
 
-Noble.showFPS = true
+Noble.showFPS = false
 playdate.display.setRefreshRate(50) -- Sets framerate to 50 fps
 
--- Noble.new(ExampleScene)
---Noble.new(TitleScene)
 Noble.new(IntroCutscene)
+--Noble.new(ResultsScene)
+--Noble.new(HamScene)

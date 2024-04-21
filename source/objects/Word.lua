@@ -19,7 +19,12 @@ function Word:render()
     --renderShards(self)
     --renderExplosion(self)
 
+    gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
+
+    --gfx.setColor(gfx.kColorBlack)
     gfx.drawText(self.text, self.posX, self.posY)
     --gfx.drawText(self.posX, self.posX,self.posY + 40)
+
+    gfx.setImageDrawMode(gfx.kDrawModeCopy)
 
 end

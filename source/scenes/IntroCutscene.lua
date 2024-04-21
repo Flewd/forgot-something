@@ -20,12 +20,15 @@ class("IntroCutscene").extends(NobleScene)
 local scene = IntroCutscene
 
 -- This is the background color of this scene.
-scene.backgroundColor = Graphics.kColorWhite
+scene.backgroundColor = Graphics.kColorBlack
 
-local PERSON_START = 0
-local PERSON_TARGET = -240
+local TITLE_START = 10
+local TITLE_TARGET = -150
 
-local ARM_START = 220
+local PERSON_START = 70
+local PERSON_TARGET = -20
+
+local ARM_START = 240
 local ARM_TARGET = 80
 
 local ZOOM_START = 1
@@ -34,8 +37,11 @@ local ZOOM_SPEED = 0.005
 
 function scene:init()
 	scene.super.init(self)
-	scene.person = Actor("assets/images/hmmmApple2", 0, PERSON_START)
-	scene.arm = Actor("assets/images/sign_while", 0, ARM_START)
+	scene.title = Actor("assets/images/titleText_black", 20, TITLE_START)
+	scene.person = Actor("assets/images/head", 50, PERSON_START)
+	scene.arm = Actor("assets/images/handApple", 70, ARM_START)
+
+	scene.arm.scaleAnchorX = 0.5
 end
 
 -- When transitioning from another scene, this runs as soon as this
@@ -58,7 +64,10 @@ end
 function scene:drawBackground()
 	scene.super.drawBackground(self)
 
+	gfx.setImageDrawMode(gfx.kDrawModeNXOR)
+
 	--scene.background:draw(0,0)
+	scene.title:render()
 	scene.person:render()
 	scene.arm:render()
 end
@@ -95,7 +104,14 @@ scene.inputHandler = {
 
 		
 		if change > 0 then
-			if scene.person.posY > PERSON_TARGET then
+			if scene.title.posY > TITLE_TARGET then
+				scene.title.posY = scene.title.posY - change
+				-- clamp
+				if scene.title.posY < TITLE_TARGET then 
+					scene.title.posY = TITLE_TARGET
+				end
+
+			elseif scene.person.posY > PERSON_TARGET then
 				scene.person.posY = scene.person.posY - change
 				-- clamp
 				if scene.person.posY < PERSON_TARGET then 
@@ -108,21 +124,27 @@ scene.inputHandler = {
 				if scene.arm.posY < ARM_TARGET then 
 					scene.arm.posY = ARM_TARGET
 				end
+
 			elseif scene.person.scale < ZOOM_TARGET then
 				scene.person.scale = scene.person.scale + (change * ZOOM_SPEED)
+				scene.arm.scale = scene.person.scale
 				-- clamp
 				if scene.person.scale > ZOOM_TARGET then 
 					scene.person.scale = ZOOM_TARGET
+					scene.arm.scale = scene.person.scale
 				end
+
 			else
 				Noble.transition(HamScene, nil, Noble.Transition.Spotlight);
 			end
 		else
 			if scene.person.scale > ZOOM_START then
 				scene.person.scale = scene.person.scale + (change * ZOOM_SPEED)
+				scene.arm.scale = scene.person.scale
 				-- clamp
 				if scene.person.scale < ZOOM_START then 
 					scene.person.scale = ZOOM_START
+					scene.arm.scale = scene.person.scale
 				end
 			elseif scene.arm.posY < ARM_START then
 				scene.arm.posY = scene.arm.posY - change
@@ -135,6 +157,12 @@ scene.inputHandler = {
 				-- clamp
 				if scene.person.posY > PERSON_START then 
 					scene.person.posY = PERSON_START
+				end
+			elseif scene.title.posY < TITLE_START then
+				scene.title.posY = scene.title.posY - change
+				-- clamp
+				if scene.title.posY > TITLE_START then 
+					scene.title.posY = TITLE_START
 				end
 			end
 		end		
