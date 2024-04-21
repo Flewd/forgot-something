@@ -71,7 +71,7 @@ local signs = {
 	"assets/images/sign_atThe",
 }
 
-local SELECTION_TIME = 9
+local SELECTION_TIME = 8.5
 
 local SCREEN_WIDTH = 400
 local SCREEN_HEIGHT = 240
@@ -195,6 +195,8 @@ end
 function scene:update()
 	scene.super.update(self)
 
+	UpdateTimers()
+
 	if scene.velocity > 0 and scene.win == false then
 
 		if scene.startRunning == false then
@@ -205,9 +207,9 @@ function scene:update()
 			scene.ham.useVelocity = true
 			scene.ham.posY = 150
 			scene.ham.posX = 150
-		end
 
-		UpdateTimers()
+			scene.timer = SELECTION_TIME
+		end
 
 		scene.timer = scene.timer - DeltaTimeSeconds()
 
@@ -353,10 +355,9 @@ function scene:forceLockInWord()
 		Noble.transition(ResultsScene, nil, Noble.Transition.DIP_TO_BLACK);
 	else
 		scene.bringingInNewWord = true;
+		scene.timer = SELECTION_TIME
+		scene.velocity = MIN_VELOCITY
 	end
-
-	scene.timer = SELECTION_TIME
-	scene.velocity = MIN_VELOCITY
 
 end
 
@@ -375,10 +376,9 @@ function scene:tryLockInWord()
 				Noble.transition(ResultsScene, nil, Noble.Transition.DIP_TO_BLACK);
 			else
 				scene.bringingInNewWord = true;
+				scene.timer = SELECTION_TIME
+				scene.velocity = MIN_VELOCITY
 			end
-
-			scene.timer = SELECTION_TIME
-			scene.velocity = MIN_VELOCITY
 		end
 	end
 end
