@@ -19,7 +19,7 @@ function Word:render()
     --renderShards(self)
     --renderExplosion(self)
 
-    gfx.drawText(self.text, self.posX,self.posY)
+    gfx.drawText(self.text, self.posX, self.posY)
     --gfx.drawText(self.posX, self.posX,self.posY + 40)
 
 end

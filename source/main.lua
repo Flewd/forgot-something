@@ -1,6 +1,8 @@
 import 'libraries/noble/Noble'
 
+import "utilities/time"
 import 'utilities/Utilities'
+
 import "CoreLibs/object"
 import "CoreLibs/graphics"
 import "CoreLibs/math"
@@ -14,6 +16,7 @@ import 'scenes/HamScene'
 import 'scenes/IntroCutscene'
 
 import "objects/Word"
+import "objects/Actor"
 import "objects/AnimatedActor"
 
 Noble.Settings.setup({

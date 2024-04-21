@@ -21,7 +21,7 @@ end
 function AnimatedActor:render()
     self.loop.delay = self.frameTime
     self.loop:draw(self.posX,self.posY)
-    gfx.drawText(self.frameTime, self.posX,self.posY - 10)
+   -- gfx.drawText(self.frameTime, self.posX,self.posY - 10)
 end
 
 function AnimatedActor:setVelocity(velocity)
