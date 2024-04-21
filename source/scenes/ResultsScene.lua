@@ -12,11 +12,12 @@
 -- !!! Rename "SceneTemplate" to your scene's name in these first three lines. !!!
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
+
 local gfx <const> = playdate.graphics
 
 SceneTemplate = {}
-class("TitleScene").extends(NobleScene)
-local scene = TitleScene
+class("ResultsScene").extends(NobleScene)
+local scene = ResultsScene
 
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 -- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -33,20 +34,16 @@ local scene = TitleScene
 -- This is the background color of this scene.
 scene.backgroundColor = Graphics.kColorWhite
 
-function scene:setValues()
-	--self.background = Graphics.image.new("assets/images/background1")
-end
-
 
 -- This runs when your scene's object is created, which is the
 -- first thing that happens when transitining away from another scene.
 function scene:init()
 	scene.super.init(self)
 
-	self:setValues()
+	--scene.background = Graphics.image.new("assets/images/end1")
+	
 
-	scene.score = 0
-	 print("Hello")
+	
 	-- SceneTemplate.variable2 = "string"
 	-- ...
 
@@ -77,7 +74,18 @@ function scene:drawBackground()
 	scene.super.drawBackground(self)
 	-- Your code here
 
-	gfx.drawText("HAM BRAIN", 50,50)
+	--scene.background:draw(0,0)
+
+	local words = GetChosenWords()
+	local prompts = GetPrompts()
+	--print(words[1][1])
+
+	for i=1, #words do
+		local word = words[i]
+		local prompt = prompts[i]
+		gfx.drawText(prompt .. " " .. word.text, 50, i * 25)
+	end
+
 	--Noble.Text.draw(score, 20, 20, Noble.Text.ALIGN_LEFT, false, Noble.Text.getCurrentFont())
 end
 
@@ -112,7 +120,7 @@ scene.inputHandler = {
 	--
 	AButtonDown = function()			-- Runs once when button is pressed.
 		-- Your code here
-		Noble.transition(IntroCutscene, nil, Noble.Transition.SlideOffUp);
+		Noble.transition(TitleScene, nil, Noble.Transition.SlideOffUp);
 	end,
 	AButtonHold = function()			-- Runs every frame while the player is holding button down.
 		-- Your code here

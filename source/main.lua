@@ -1,5 +1,6 @@
 import 'libraries/noble/Noble'
 
+import "utilities/global"
 import "utilities/time"
 import 'utilities/Utilities'
 
@@ -14,6 +15,7 @@ import 'scenes/ExampleScene2'
 import 'scenes/TitleScene'
 import 'scenes/HamScene'
 import 'scenes/IntroCutscene'
+import 'scenes/ResultsScene'
 
 import "objects/Word"
 import "objects/Actor"
@@ -24,7 +26,6 @@ Noble.Settings.setup({
 })
 
 Noble.GameData.setup({
-	Score = 0
 })
 
 Noble.showFPS = true
@@ -32,4 +33,3 @@ Noble.showFPS = true
 -- Noble.new(ExampleScene)
 --Noble.new(TitleScene)
 Noble.new(HamScene)
-

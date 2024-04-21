@@ -86,7 +86,6 @@ function scene:init()
 	scene.bringingInNewWord = false
 
 	scene.activeWords = {}
-	scene.chosenWords = {}
 	scene.levelWordSetIndex = 1
 	scene.choosingWordIndex = 1
 
@@ -111,6 +110,8 @@ function scene:init()
 	table.insert(scene.actors, scene.ham)
 	table.insert(scene.actors, scene.track1)
 
+	SetPrompts(signsText)
+	ClearChosenWords()
 end
 
 function scene:newWord()
@@ -250,7 +251,6 @@ function scene:newWordUpdate()
 	--scene:waitSeconds(1)
 	
 	scene.bringingInNewWord = false;
-
 	scene.sign = Actor(signs[scene.levelWordSetIndex], 110, 10)
 
 end
@@ -281,9 +281,20 @@ function scene:tryLockInWord()
 	for i=1, #scene.activeWords do
 		local word = scene.activeWords[i]
 		if word.posX >= CONFIRM_START and word.posX <= CONFIRM_END then
-			table.insert(scene.chosenWords, scene.choosingWordIndex, word)
-			scene.bringingInNewWord = true;
-			print("Locked in: " .. word.text)
+
+			print(word.text)
+			AddChosenWord(word)
+			
+
+
+			--table.insert(scene.chosenWords, scene.choosingWordIndex, word)
+			print("Locked in: " .. word.text .. " at word set " .. scene.levelWordSetIndex)
+
+			if(scene.levelWordSetIndex > 2) then
+				Noble.transition(ResultsScene, nil, Noble.Transition.SlideOffUp);
+			else
+				scene.bringingInNewWord = true;
+			end
 		end
 	end
 end
