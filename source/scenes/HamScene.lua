@@ -42,8 +42,8 @@ local levelDataWords = {
 		{"Office", 10},	-- row 3
 		{"Home", 30},
 		{"Coffe Shop", 50},
-		{"Junk", 1},
-		{"Junk", 50},
+		{"Junk1", 1},
+		{"Junk2", 50},
 	}
 }
 
@@ -78,7 +78,7 @@ function scene:init()
 	scene.crankAcceleration = 0.1
 
 	scene.minVelocity = 1
-	scene.maxVelocity = 40
+	scene.maxVelocity = 30
 
 	scene.velocity = scene.minVelocity
 
@@ -135,7 +135,6 @@ function scene:newWord()
 
 	print("Created Word: " .. text .. " from set:" .. scene.levelWordSetIndex)
 end
-
 
 function scene:leftMostWordPos()
 

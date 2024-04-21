@@ -40,6 +40,12 @@ scene.backgroundColor = Graphics.kColorWhite
 function scene:init()
 	scene.super.init(self)
 
+	local font = gfx.font.new("assets/fonts/diamond_20");
+    -- kVariantNormal
+    -- kVariantBold
+    -- kVariantItalic
+	gfx.setFont(font, gfx.font.kVariantNormal)
+
 	--scene.background = Graphics.image.new("assets/images/end1")
 	
 
@@ -86,6 +92,7 @@ function scene:drawBackground()
 		gfx.drawText(prompt .. " " .. word.text, 50, i * 25)
 	end
 
+	gfx.drawText("Created By: Amelia & Mike", 20, 200)
 	--Noble.Text.draw(score, 20, 20, Noble.Text.ALIGN_LEFT, false, Noble.Text.getCurrentFont())
 end
 

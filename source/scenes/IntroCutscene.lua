@@ -19,84 +19,66 @@ SceneTemplate = {}
 class("IntroCutscene").extends(NobleScene)
 local scene = IntroCutscene
 
--- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
--- !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
--- It is recommended that you declare, but don't yet define,
--- your scene-specific varibles and methods here. Use "local" where possible.
---
--- local variable1 = nil	-- local variable
--- scene.variable2 = nil	-- Scene variable.
---							   When accessed outside this file use `SceneTemplate.variable2`.
--- ...
---
-
 -- This is the background color of this scene.
 scene.backgroundColor = Graphics.kColorWhite
 
+local PERSON_START = 0
+local PERSON_TARGET = -240
 
--- This runs when your scene's object is created, which is the
--- first thing that happens when transitining away from another scene.
+local ARM_START = 220
+local ARM_TARGET = 80
+
+local ZOOM_START = 1
+local ZOOM_TARGET = 3
+local ZOOM_SPEED = 0.005
+
 function scene:init()
 	scene.super.init(self)
-
-	scene.background = Graphics.image.new("assets/images/hmmmApple")
-
-	-- SceneTemplate.variable2 = "string"
-	-- ...
-
-	-- Your code here
+	scene.person = Actor("assets/images/hmmmApple2", 0, PERSON_START)
+	scene.arm = Actor("assets/images/sign_while", 0, ARM_START)
 end
 
 -- When transitioning from another scene, this runs as soon as this
 -- scene needs to be visible (this moment depends on which transition type is used).
 function scene:enter()
 	scene.super.enter(self)
-	-- Your code here
 end
 
 -- This runs once a transition from another scene is complete.
 function scene:start()
 	scene.super.start(self)
-	-- Your code here
 end
 
 -- This runs once per frame.
 function scene:update()
 	scene.super.update(self)
-	-- Your code here
 end
 
 -- This runs once per frame, and is meant for drawing code.
 function scene:drawBackground()
 	scene.super.drawBackground(self)
-	-- Your code here
 
-	scene.background:draw(0,0)
-
-
-	--Noble.Text.draw(score, 20, 20, Noble.Text.ALIGN_LEFT, false, Noble.Text.getCurrentFont())
+	--scene.background:draw(0,0)
+	scene.person:render()
+	scene.arm:render()
 end
 
 -- This runs as as soon as a transition to another scene begins.
 function scene:exit()
 	scene.super.exit(self)
-	-- Your code here
 end
 
 -- This runs once a transition to another scene completes.
 function scene:finish()
 	scene.super.finish(self)
-	-- Your code here
 end
 
 function scene:pause()
 	scene.super.pause(self)
-	-- Your code here
 end
+
 function scene:resume()
 	scene.super.resume(self)
-	-- Your code here
 end
 
 -- Define the inputHander for this scene here, or use a previously defined inputHandler.
@@ -104,12 +86,71 @@ end
 -- scene.inputHandler = someOtherInputHandler
 -- OR
 scene.inputHandler = {
+	-- Crank
+	--
+	cranked = function(change, acceleratedChange)	-- Runs when the crank is rotated. See Playdate SDK documentation for details.
+		-- Your code here
+
+		-- scene.person.scale = scene.person.scale + (change*ZOOM_SPEED)
+
+		
+		if change > 0 then
+			if scene.person.posY > PERSON_TARGET then
+				scene.person.posY = scene.person.posY - change
+				-- clamp
+				if scene.person.posY < PERSON_TARGET then 
+					scene.person.posY = PERSON_TARGET
+				end
+
+			elseif scene.arm.posY > ARM_TARGET then
+				scene.arm.posY = scene.arm.posY - change
+				-- clamp
+				if scene.arm.posY < ARM_TARGET then 
+					scene.arm.posY = ARM_TARGET
+				end
+			elseif scene.person.scale < ZOOM_TARGET then
+				scene.person.scale = scene.person.scale + (change * ZOOM_SPEED)
+				-- clamp
+				if scene.person.scale > ZOOM_TARGET then 
+					scene.person.scale = ZOOM_TARGET
+				end
+			else
+				Noble.transition(HamScene, nil, Noble.Transition.Spotlight);
+			end
+		else
+			if scene.person.scale > ZOOM_START then
+				scene.person.scale = scene.person.scale + (change * ZOOM_SPEED)
+				-- clamp
+				if scene.person.scale < ZOOM_START then 
+					scene.person.scale = ZOOM_START
+				end
+			elseif scene.arm.posY < ARM_START then
+				scene.arm.posY = scene.arm.posY - change
+				-- clamp
+				if scene.arm.posY > ARM_START then 
+					scene.arm.posY = ARM_START
+				end
+			elseif scene.person.posY < PERSON_START then
+				scene.person.posY = scene.person.posY - change
+				-- clamp
+				if scene.person.posY > PERSON_START then 
+					scene.person.posY = PERSON_START
+				end
+			end
+		end		
+
+	end,
+	crankDocked = function()						-- Runs once when when crank is docked.
+		-- Your code here
+	end,
+	crankUndocked = function()						-- Runs once when when crank is undocked.
+		-- Your code here
+	end,
 
 	-- A button
 	--
 	AButtonDown = function()			-- Runs once when button is pressed.
 		-- Your code here
-		Noble.transition(HamScene, nil, Noble.Transition.Spotlight);
 	end,
 	AButtonHold = function()			-- Runs every frame while the player is holding button down.
 		-- Your code here
@@ -184,15 +225,5 @@ scene.inputHandler = {
 		-- Your code here
 	end,
 
-	-- Crank
-	--
-	cranked = function(change, acceleratedChange)	-- Runs when the crank is rotated. See Playdate SDK documentation for details.
-		-- Your code here
-	end,
-	crankDocked = function()						-- Runs once when when crank is docked.
-		-- Your code here
-	end,
-	crankUndocked = function()						-- Runs once when when crank is undocked.
-		-- Your code here
-	end
+	
 }

@@ -27,8 +27,8 @@ end
 function AnimatedActor:setVelocity(velocity)
    
     --normalize: (val - min) / (max - min)
-    local normalizedVelocity = (velocity - 1) / (40 - 1)
+    local normalizedVelocity = (velocity - 1) / (30 - 1)
 
 -- 300 is slowest frame delay, 4 is fastes frame delay
-    self.frameTime = playdate.math.lerp(100,10,normalizedVelocity)
+    self.frameTime = playdate.math.lerp(150,30,normalizedVelocity)
 end

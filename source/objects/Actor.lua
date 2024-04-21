@@ -7,17 +7,25 @@ function Actor:init(imagePath, x, y)
     self.imagePath = imagePath
     self.posX = x
     self.posY = y
+    self.scale = 1
 
     self.image = gfx.image.new(imagePath)
 end
 
 function Actor:update()
 
-
 end
 
 function Actor:render()
-    self.image:draw(self.posX,self.posY)
+   -- self.image:draw(self.posX,self.posY)
+
+    local w, h = self.image:getSize()
+
+    local widthDiff = (w * self.scale) - w
+    local heightDiff = (h * self.scale) - h
+
+    self.image:drawScaled(self.posX - (widthDiff/2) ,self.posY - (heightDiff/2), self.scale)
+
 
 --    self.loop.delay = self.frameTime
  --   self.loop:draw(self.posX,self.posY)
