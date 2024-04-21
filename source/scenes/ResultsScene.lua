@@ -100,19 +100,16 @@ function scene:drawBackground()
 	local x = screenWidth - (width/2)
 	gfx.drawText(words[1].text, x, y)
 	y = y + wordDistance
-	print(width)
 
 	width = scene.font:getTextWidth(words[2].text)
 	x = screenWidth - (width/2)
 	gfx.drawText(words[2].text, x, y)
 	y = y + wordDistance
-	print(width)
 
 	width = scene.font:getTextWidth(words[3].text)
 	x = screenWidth - (width/2)
 	gfx.drawText(words[3].text, x, y)
 	y = y + wordDistance
-	print(width)
 
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 	-- gfx.drawText("Created By: Amelia & Mike", 0, 200)

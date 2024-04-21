@@ -83,6 +83,9 @@ local CONFIRM_WIDTH = 175
 local CONFIRM_START = SCREEN_WIDTH/2 - CONFIRM_WIDTH/2
 local CONFIRM_END = SCREEN_WIDTH/2 + CONFIRM_WIDTH/2
 
+local MIN_VELOCITY = 1
+local MAX_VELOCITY = 30
+
 -- This runs when your scene's object is created, which is the
 -- first thing that happens when transitining away from another scene.
 function scene:init()
@@ -90,11 +93,10 @@ function scene:init()
 
 	scene.score = 0
 	scene.crankAcceleration = 0.1
+	scene.win = false
 
-	scene.minVelocity = 1
-	scene.maxVelocity = 30
-
-	scene.velocity = scene.minVelocity
+	scene.velocity = 0
+	scene.startRunning = false
 
 	scene.nextWordIndex = 1
 	scene.bringingInNewWord = false
@@ -123,7 +125,11 @@ function scene:init()
 	scene.clock = Actor("assets/images/clock", -10, 180)
 
 	scene.wheel = AnimatedActor("assets/images/wheel-table-400-240",0,0,100)
-	scene.ham = AnimatedActor("assets/images/hamster-table-116-78",150,150,100)
+	scene.wheel.pause = true;
+
+	scene.ham = AnimatedActor("assets/images/hamsteridle-table-56-80",170,150,500)
+	scene.ham.useVelocity = false
+	--scene.ham = AnimatedActor("assets/images/hamster-table-116-78",150,150,100)
 	scene.track1 = AnimatedActor("assets/images/activeSign-table-303-115",50,0,100)
 
 	scene.sign = Actor(signs[1], 110, 10)
@@ -176,56 +182,73 @@ end
 -- scene needs to be visible (this moment depends on which transition type is used).
 function scene:enter()
 	scene.super.enter(self)
-
+	
 end
 
 -- This runs once a transition from another scene is complete.
 function scene:start()
 	scene.super.start(self)
-
+	scene.timer = SELECTION_TIME
 end
 
 -- This runs once per frame.
 function scene:update()
 	scene.super.update(self)
 
-	UpdateTimers()
-	scene.timer = scene.timer - DeltaTimeSeconds()
+	if scene.velocity > 0 and scene.win == false then
 
-	if scene.timer <= 0 then 
-		scene.timer = 0
+		if scene.startRunning == false then
+			scene.startRunning = true
+			scene.wheel.pause = false;
+			
+			scene.ham:setImageTable("assets/images/hamster-table-116-78")
+			scene.ham.useVelocity = true
+			scene.ham.posY = 150
+			scene.ham.posX = 150
+		end
 
-		scene:forceLockInWord()
-		scene.timer = SELECTION_TIME
-	end
+		UpdateTimers()
 
-	--print("Start coroutine")
-	while scene.bringingInNewWord do
-		local dt = coroutine.yield() -- the most important part
-		scene:newWordUpdate()
-	end
-	--print("End coroutine")
+		scene.timer = scene.timer - DeltaTimeSeconds()
 
-	local removeList = {}
+		if scene.timer <= 0 then 
+			scene.timer = 0
 
-	for i=1, #scene.activeWords do
-		local word = scene.activeWords[i]
-		word.posX = word.posX + scene.velocity
-		word:update()
+			scene:forceLockInWord()
+		end
 
-		if word.posX > SCREEN_WIDTH then
-			table.insert(removeList,i)
+		--print("Start coroutine")
+		while scene.bringingInNewWord do
+			local dt = coroutine.yield() -- the most important part
+			scene:newWordUpdate()
+		end
+		--print("End coroutine")
+
+		local removeList = {}
+
+		for i=1, #scene.activeWords do
+			local word = scene.activeWords[i]
+			word.posX = word.posX + scene.velocity
+			word:update()
+
+			if word.posX > SCREEN_WIDTH then
+				table.insert(removeList,i)
+			end
+		end
+
+		for i=1, #removeList do
+			table.remove(scene.activeWords, removeList[i])
+		end
+
+		local activeWordCount = Utilities.tableItemCount(scene.activeWords)
+		if activeWordCount < NUMBER_OF_SCROLLING_WORDS then
+			scene:newWord()
 		end
 	end
+	
 
-	for i=1, #removeList do
-		table.remove(scene.activeWords, removeList[i])
-	end
 
-	local activeWordCount = Utilities.tableItemCount(scene.activeWords)
-	if activeWordCount < NUMBER_OF_SCROLLING_WORDS then
-		scene:newWord()
-	end
+	
 end
 
 -- This runs once per frame, and is meant for drawing code.
@@ -326,10 +349,14 @@ function scene:forceLockInWord()
 	print("Locked in: " .. closestWord.text .. " at word set " .. scene.levelWordSetIndex)
 
 	if(scene.levelWordSetIndex > 2) then
+		scene.win = true
 		Noble.transition(ResultsScene, nil, Noble.Transition.DIP_TO_BLACK);
 	else
 		scene.bringingInNewWord = true;
 	end
+
+	scene.timer = SELECTION_TIME
+	scene.velocity = MIN_VELOCITY
 
 end
 
@@ -339,15 +366,19 @@ function scene:tryLockInWord()
 		if word.posX >= CONFIRM_START and word.posX <= CONFIRM_END then
 			
 			AddChosenWord(word)
-			
+		
 			--table.insert(scene.chosenWords, scene.choosingWordIndex, word)
 			print("Locked in: " .. word.text .. " at word set " .. scene.levelWordSetIndex)
 
 			if(scene.levelWordSetIndex > 2) then
+				scene.win = true
 				Noble.transition(ResultsScene, nil, Noble.Transition.DIP_TO_BLACK);
 			else
 				scene.bringingInNewWord = true;
 			end
+
+			scene.timer = SELECTION_TIME
+			scene.velocity = MIN_VELOCITY
 		end
 	end
 end
@@ -362,10 +393,10 @@ scene.inputHandler = {
 		scene.score = scene.score + change
 		scene.velocity = scene.velocity + (scene.crankAcceleration * change)
 
-		if scene.velocity < scene.minVelocity then
-			scene.velocity = scene.minVelocity
-		elseif scene.velocity > scene.maxVelocity then
-			scene.velocity = scene.maxVelocity
+		if scene.velocity < MIN_VELOCITY then
+			scene.velocity = MIN_VELOCITY
+		elseif scene.velocity > MAX_VELOCITY then
+			scene.velocity = MAX_VELOCITY
 		end
 
 		--scene.wheel.frameTime = scene.wheel.frameTime + (change)
