@@ -1,5 +1,6 @@
 local prompts = {}
 local chosenWords = {}
+local isApple = true
 
 function AddChosenWord(value)
 	table.insert(chosenWords, value)
@@ -27,4 +28,16 @@ end
 
 function GetPrompts()
 	return prompts
+end
+
+function FlipContent()
+	if  isApple == true then
+		isApple = false
+	else
+		isApple = true
+	end
+end
+
+function IsApple()
+	return isApple
 end

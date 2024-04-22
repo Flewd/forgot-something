@@ -39,7 +39,14 @@ function scene:init()
 	scene.super.init(self)
 	scene.title = Actor("assets/images/titleText_black", 20, TITLE_START)
 	scene.person = Actor("assets/images/head", 50, PERSON_START)
-	scene.arm = Actor("assets/images/handApple", 70, ARM_START)
+
+	local isApple = IsApple()
+
+	if isApple == true then
+		scene.arm = Actor("assets/images/handApple", 70, ARM_START)
+	else
+		scene.arm = Actor("assets/images/handKeys", 70, ARM_START)
+	end
 
 	scene.arm.scaleAnchorX = 0.5
 end

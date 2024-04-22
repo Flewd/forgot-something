@@ -32,6 +32,11 @@ local levelDataWords = {
 		{"nemisis", 1},
 		{"child", 1},
 		{"thing", 1},
+		{"purpose", 1},
+		{"inhibitions", 1},
+		{"troubles", 1},
+		{"uhhh", 1},
+		
 	},
 	{
 		{"picknicking", 10},	-- row 2
@@ -51,6 +56,7 @@ local levelDataWords = {
 		{"grumbling", 1},
 		{"flirting", 1},
 		{"something", 1},
+		{"ummm", 1},
 	},
 	{
 		{"orchard", 10},	-- row 3
@@ -67,6 +73,7 @@ local levelDataWords = {
 		{"Alps", 1},
 		{"past", 1},
 		{"somewhere", 1},
+		{"hmmm", 1},
 	}
 }
 
@@ -92,6 +99,10 @@ local levelDataWordsKeys = {
 		{"nemisis", 1},
 		{"child", 1},
 		{"thing", 1},
+		{"purpose", 1},
+		{"inhibitions", 1},
+		{"troubles", 1},
+		{"uhhh", 1},
 	},
 	{
 		{"thinking", 10},	-- row 2
@@ -109,6 +120,7 @@ local levelDataWordsKeys = {
 		{"grumbling", 1},
 		{"flirting", 1},
 		{"something", 1},
+		{"ummm", 1},
 	},
 	{
 		{"title screen", 10},	-- row 3
@@ -129,6 +141,7 @@ local levelDataWordsKeys = {
 		{"Alps", 1},
 		{"past", 1},
 		{"somewhere", 1},
+		{"hmmm", 1},
 	}
 }
 
@@ -232,7 +245,14 @@ function scene:init()
 end
 
 function scene:newWord()
-	local levelWordSet = levelDataWords[scene.levelWordSetIndex]
+
+	local levelWordSet = {}
+	if IsApple() == true then
+		levelWordSet = levelDataWords[scene.levelWordSetIndex]
+	else
+		levelWordSet = levelDataWordsKeys[scene.levelWordSetIndex]
+	end
+	 
 	local text = levelWordSet[scene.nextWordIndex][1];
 	local score = levelWordSet[scene.nextWordIndex][2];
 

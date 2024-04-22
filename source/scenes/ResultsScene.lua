@@ -83,6 +83,8 @@ function scene:init()
 	scene.arrowsFill = AnimatedActor("assets/images/replaySpin-table-42-42",360,200,9999999)
 
 	scene.scroll = 0
+
+	FlipContent()
 	--scene.background = Graphics.image.new("assets/images/end1")
 		
 	-- SceneTemplate.variable2 = "string"
