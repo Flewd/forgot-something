@@ -21,7 +21,7 @@ local levelDataWords = {
 		{"pie", 50}, -- 9 
 		{"Dr appt", 50},
 		{"grandma", 50},
-		{"lady (pink)", 50},
+		{"pink lady", 50},
 		{"dog", 25},
 		{"cat", 25},
 		{"mom", 25},
@@ -29,7 +29,7 @@ local levelDataWords = {
 		{"dad", 25},
 		{"parrot", 25},
 		{"best friend", 25},
-		{"nemisis", 25},
+		{"nemesis", 25},
 		{"child", 25},
 		{"thing", 25},
 		{"purpose", 25},
@@ -141,6 +141,7 @@ local levelDataWordsKeys = {
 		{"past", 25},
 		{"somewhere", 25},
 		{"hmmm", 25},
+		{"Chuck E Cheese", 50},
 	}
 }
 
