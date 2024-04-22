@@ -170,7 +170,7 @@ local signs = {
 	"assets/images/sign_atThe",
 }
 
-local SELECTION_TIME = 8.5
+local SELECTION_TIME = 9.5
 
 local SCREEN_WIDTH = 400
 local SCREEN_HEIGHT = 240
@@ -183,6 +183,7 @@ local CONFIRM_START = SCREEN_WIDTH/2 - CONFIRM_WIDTH/2
 local CONFIRM_END = SCREEN_WIDTH/2 + CONFIRM_WIDTH/2
 
 local MIN_VELOCITY = 1
+local START_VELOCITY = 20
 local MAX_VELOCITY = 30
 
 -- This runs when your scene's object is created, which is the
@@ -191,11 +192,12 @@ function scene:init()
 	scene.super.init(self)
 
 	scene.score = 0
-	scene.crankAcceleration = 0.1
+	scene.crankAcceleration = 0.05
 	scene.win = false
 
 	scene.velocity = 0
 	scene.startRunning = false
+	scene.wheelDrag = 17
 
 	scene.nextWordIndex = 1
 	scene.bringingInNewWord = false
@@ -323,6 +325,13 @@ function scene:update()
 	UpdateTimers()
 
 	if scene.velocity > 0 and scene.win == false then
+
+		scene.velocity = scene.velocity - (scene.wheelDrag * DeltaTimeSeconds())
+
+		if scene.velocity < MIN_VELOCITY then 
+			scene.velocity = MIN_VELOCITY
+		end
+
 
 		if scene.startRunning == false then
 			scene.startRunning = true
@@ -488,7 +497,7 @@ function scene:forceLockInWord()
 	else
 		scene.bringingInNewWord = true;
 		scene.timer = SELECTION_TIME
-		scene.velocity = MIN_VELOCITY
+		scene.velocity = START_VELOCITY
 	end
 end
 
@@ -508,7 +517,7 @@ function scene:tryLockInWord()
 			else
 				scene.bringingInNewWord = true;
 				scene.timer = SELECTION_TIME
-				scene.velocity = MIN_VELOCITY
+				scene.velocity = START_VELOCITY
 			end
 		end
 	end
