@@ -36,13 +36,14 @@ scene.backgroundColor = Graphics.kColorWhite
 
 local SCROLL_SPEED = 0.5
 local MIN_SCROLL = 0
-local MAX_SCROLL = 239
+local MAX_SCROLL = 610
 
 local FILL_FRAME_COUT = 12
 local OVERSCROLL_SPEED = 0.05
 
 local CARD1_START = 0
 local CARD2_START = 240
+local EEPY_START = 750
 
 local BEST = 300
 local MID = 150
@@ -59,8 +60,24 @@ function scene:init()
     -- kVariantItalic
 
 	scene.overscroll = 0
-	scene.endCard = Actor("assets/images/endcardGood", 0, CARD1_START)
+
+	local words = GetChosenWords()
+	local totalScore = words[1].score + words[2].score + words[3].score
+	print(totalScore)
+;
+
+	if totalScore >= 300 then
+		scene.endCard = Actor("assets/images/endcardGood", 0, CARD1_START)
+	elseif totalScore >= 150 then
+		scene.endCard = Actor("assets/images/endcardNormal", 0, CARD1_START)
+	else
+		scene.endCard = Actor("assets/images/endcardBad", 0, CARD1_START)
+	end
+
+	
 	scene.creditsBg = Actor("assets/images/credits", 0, CARD2_START)
+
+	scene.eepy = AnimatedActor("assets/images/eepy-table-65-42",160,EEPY_START,150)
 
 	scene.arrows = AnimatedActor("assets/images/arrowSpin-table-42-42",360,200,150)
 	scene.arrowsFill = AnimatedActor("assets/images/replaySpin-table-42-42",360,200,9999999)
@@ -106,6 +123,7 @@ function scene:drawBackground()
 
 	scene.endCard:render()
 	scene.creditsBg:render()
+	scene.eepy:render()
 
 	if scene.scroll == MAX_SCROLL then
 		scene.arrowsFill:setFrame(math.floor(scene.overscroll))
@@ -283,6 +301,7 @@ scene.inputHandler = {
 
 			scene.endCard.posY = CARD1_START - scene.scroll
 			scene.creditsBg.posY = CARD2_START - scene.scroll
+			scene.eepy.posY = EEPY_START - scene.scroll
 
 		end
 

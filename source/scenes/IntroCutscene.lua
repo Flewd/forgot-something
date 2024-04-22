@@ -25,7 +25,7 @@ scene.backgroundColor = Graphics.kColorBlack
 local TITLE_START = 10
 local TITLE_TARGET = -150
 
-local PERSON_START = 70
+local PERSON_START = 58
 local PERSON_TARGET = -20
 
 local ARM_START = 240
@@ -135,7 +135,8 @@ scene.inputHandler = {
 				end
 
 			else
-				Noble.transition(HamScene, nil, Noble.Transition.Spotlight);
+				-- Noble.transition(HamScene, nil, Noble.Transition.Spotlight);
+				Noble.transition(HamScene, nil, Noble.Transition.SpotlightMask);
 			end
 		else
 			if scene.person.scale > ZOOM_START then

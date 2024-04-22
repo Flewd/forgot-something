@@ -13,39 +13,125 @@ local levelDataPhrase = "You forgot your _ while _ at the _"
 
 local levelDataWords = {
 	{
-		{"Apple", 100},	-- row 1
-		{"Junk1", 50},
-		{"Junk2", 25},
-		{"Junk3", 1},
-		{"Junk4", 1},
-		{"Keys", 30},
-		{"Junk5", 1},
-		{"Junk6", 1},
-		{"Junk7", 1},
-		{"Junk8", 1},
-		{"Kiss", 50},
-		{"Junk9", 1},
-		{"Junk10", 1},
-		{"Junk11", 1},
-		{"Junk12", 1},
+		{"apple", 100},
+		{"horse", 100},	-- row 1
+		{"pet worm", 50},
+		{"mac", 25},
+		{"friend Mac", 1},
+		{"pie", 1}, -- 9 
+		{"Dr appt", 30},
+		{"grandma", 1},
+		{"lady (pink)", 1},
+		{"dog", 1},
+		{"cat", 1},
+		{"mom", 1},
+		{"name", 1},
+		{"dad", 1},
+		{"parrot", 1},
+		{"best friend", 1},
+		{"nemisis", 1},
+		{"child", 1},
+		{"thing", 1},
 	},
 	{
-		{"Working", 10},	-- row 2
-		{"Running", 30},
-		{"Driving", 50},
-		{"Junk1", 1},
-		{"Junk2", 1},
-		{"Junk3", 1},
-		{"Junk4", 1},
+		{"picknicking", 10},	-- row 2
+		{"baking", 30},
+		{"boot scootin", 50},
+		{"moseying", 1},
+		{"frolicking", 1},
+		{"languishing", 1},
+		{"fencing", 1},
+		{"crying", 1},
+		{"gardening", 1},
+		{"grappling", 1},
+		{"waiting", 1},
+		{"stunting", 1},
+		{"gaming", 1},
+		{"swimming", 1},
+		{"grumbling", 1},
+		{"flirting", 1},
+		{"something", 1},
 	},
 	{
-		{"Office", 10},	-- row 3
-		{"Home", 30},
-		{"Coffee Shop", 50},
-		{"Junk1", 1},
-		{"Junk2", 50},
+		{"orchard", 10},	-- row 3
+		{"park", 30},
+		{"Applebees", 50},
+		{"saloon", 1},
+		{"garden (Eden)", 50},
+		{"barista", 1},
+		{"playdate", 1},
+		{"DMV", 1},
+		{"future", 1},
+		{"bathroom", 1},
+		{"dog park", 1},
+		{"Alps", 1},
+		{"past", 1},
+		{"somewhere", 1},
 	}
 }
+
+local levelDataWordsKeys = {
+	{
+		{"keys", 100},	-- row 1
+		{"car", 50},
+		{"groceries", 25},
+		{"geese", 1},
+		{"kiss", 1}, -- 9 
+		{"quiche", 30},
+		{"knees", 1},
+		{"bees", 1},
+		{"wallet", 1},
+		{"lock", 1},
+		{"dog", 1},
+		{"cat", 1},
+		{"mom", 1},
+		{"name", 1},
+		{"dad", 1},
+		{"parrot", 1},
+		{"best friend", 1},
+		{"nemisis", 1},
+		{"child", 1},
+		{"thing", 1},
+	},
+	{
+		{"thinking", 10},	-- row 2
+		{"holding them", 30},
+		{"leaving", 50},
+		{"dancing", 1},
+		{"shopping", 1},
+		{"shredding", 1},
+		{"keying", 1},
+		--{"keynote", 1},
+		{"waiting", 1},
+		{"stunting", 1},
+		{"gaming", 1},
+		{"swimming", 1},
+		{"grumbling", 1},
+		{"flirting", 1},
+		{"something", 1},
+	},
+	{
+		{"title screen", 10},	-- row 3
+		{"door mat", 30},
+		{"daycare", 50},
+		{"work", 1},
+		{"c-store", 50},
+		{"Denny's", 1},
+		{"guitar center", 1},
+		{"parking lot", 1},
+		{"lock smith", 1},
+		{"barista", 1},
+		{"playdate", 1},
+		{"DMV", 1},
+		{"future", 1},
+		{"bathroom", 1},
+		{"dog park", 1},
+		{"Alps", 1},
+		{"past", 1},
+		{"somewhere", 1},
+	}
+}
+
 
 local signsText = {
 	"You forgot your",
@@ -113,7 +199,7 @@ function scene:init()
 		scene:newWord()
 	end
 
-    scene.wordFont = gfx.font.new("assets/fonts/Sasser-Slab-EXBold");
+    scene.wordFont = gfx.font.new("assets/fonts/Sasser-Slab-Bold27");
 	--scene.timerFont = gfx.font.new("assets/fonts/Sasser-Slab-Bold");
     -- kVariantNormal
     -- kVariantBold
@@ -281,7 +367,7 @@ function scene:drawBackground()
 
 	--scene.clock:render()
 	--gfx.setFont(scene.timerFont, gfx.font.kVariantNormal)
-	gfx.drawText(math.floor(scene.timer), 13, 205)
+	gfx.drawText(math.floor(scene.timer), 15, 205)
 
 	if scene.startRunning == false then
 		scene.arrows:render()
