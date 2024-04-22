@@ -15,133 +15,133 @@ local levelDataWords = {
 	{
 		{"apple", 100},
 		{"horse", 100},	-- row 1
-		{"pet worm", 50},
-		{"mac", 25},
-		{"friend Mac", 1},
-		{"pie", 1}, -- 9 
-		{"Dr appt", 30},
-		{"grandma", 1},
-		{"lady (pink)", 1},
-		{"dog", 1},
-		{"cat", 1},
-		{"mom", 1},
-		{"name", 1},
-		{"dad", 1},
-		{"parrot", 1},
-		{"best friend", 1},
-		{"nemisis", 1},
-		{"child", 1},
-		{"thing", 1},
-		{"purpose", 1},
-		{"inhibitions", 1},
-		{"troubles", 1},
-		{"uhhh", 1},
+		{"pet worm", 100},
+		{"mac", 50},
+		{"friend Mac", 50},
+		{"pie", 50}, -- 9 
+		{"Dr appt", 50},
+		{"grandma", 50},
+		{"lady (pink)", 50},
+		{"dog", 25},
+		{"cat", 25},
+		{"mom", 25},
+		{"name", 25},
+		{"dad", 25},
+		{"parrot", 25},
+		{"best friend", 25},
+		{"nemisis", 25},
+		{"child", 25},
+		{"thing", 25},
+		{"purpose", 25},
+		{"inhibitions", 25},
+		{"troubles", 25},
+		{"uhhh", 25},
 		
 	},
 	{
-		{"picknicking", 10},	-- row 2
-		{"baking", 30},
+		{"picknicking", 100},	-- row 2
+		{"baking", 100},
 		{"boot scootin", 50},
-		{"moseying", 1},
-		{"frolicking", 1},
-		{"languishing", 1},
-		{"fencing", 1},
-		{"crying", 1},
-		{"gardening", 1},
-		{"grappling", 1},
-		{"waiting", 1},
-		{"stunting", 1},
-		{"gaming", 1},
-		{"swimming", 1},
-		{"grumbling", 1},
-		{"flirting", 1},
-		{"something", 1},
-		{"ummm", 1},
+		{"moseying", 50},
+		{"frolicking", 50},
+		{"languishing", 50},
+		{"fencing", 25},
+		{"crying", 25},
+		{"gardening", 25},
+		{"grappling", 25},
+		{"waiting", 25},
+		{"stunting", 25},
+		{"gaming", 25},
+		{"swimming", 25},
+		{"grumbling", 25},
+		{"flirting", 25},
+		{"something", 25},
+		{"ummm", 25},
 	},
 	{
-		{"orchard", 10},	-- row 3
-		{"park", 30},
+		{"orchard", 100},	-- row 3
+		{"park", 100},
 		{"Applebees", 50},
-		{"saloon", 1},
+		{"saloon", 100},
 		{"garden (Eden)", 50},
-		{"barista", 1},
-		{"playdate", 1},
-		{"DMV", 1},
-		{"future", 1},
-		{"bathroom", 1},
-		{"dog park", 1},
-		{"Alps", 1},
-		{"past", 1},
-		{"somewhere", 1},
-		{"hmmm", 1},
+		{"barista", 25},
+		{"playdate", 25},
+		{"DMV", 25},
+		{"future", 25},
+		{"bathroom", 25},
+		{"dog park", 25},
+		{"Alps", 25},
+		{"past", 25},
+		{"somewhere", 25},
+		{"hmmm", 25},
 	}
 }
 
 local levelDataWordsKeys = {
 	{
 		{"keys", 100},	-- row 1
-		{"car", 50},
-		{"groceries", 25},
-		{"geese", 1},
-		{"kiss", 1}, -- 9 
-		{"quiche", 30},
-		{"knees", 1},
-		{"bees", 1},
-		{"wallet", 1},
-		{"lock", 1},
-		{"dog", 1},
-		{"cat", 1},
-		{"mom", 1},
-		{"name", 1},
-		{"dad", 1},
-		{"parrot", 1},
-		{"best friend", 1},
-		{"nemisis", 1},
-		{"child", 1},
-		{"thing", 1},
-		{"purpose", 1},
-		{"inhibitions", 1},
-		{"troubles", 1},
-		{"uhhh", 1},
+		{"car", 100},
+		{"groceries", 100},
+		{"geese", 50},
+		{"kiss", 50}, -- 9 
+		{"quiche", 50},
+		{"knees", 50},
+		{"bees", 50},
+		{"wallet", 50},
+		{"lock", 50},
+		{"dog", 25},
+		{"cat", 25},
+		{"mom", 25},
+		{"name", 25},
+		{"dad", 25},
+		{"parrot", 25},
+		{"best friend", 25},
+		{"nemisis", 25},
+		{"child", 25},
+		{"thing", 25},
+		{"purpose", 25},
+		{"inhibitions", 25},
+		{"troubles", 25},
+		{"uhhh", 25},
 	},
 	{
-		{"thinking", 10},	-- row 2
-		{"holding them", 30},
-		{"leaving", 50},
-		{"dancing", 1},
-		{"shopping", 1},
-		{"shredding", 1},
-		{"keying", 1},
+		{"thinking", 100},	-- row 2
+		{"holding them", 100},
+		{"leaving", 100},
+		{"dancing", 50},
+		{"shopping", 50},
+		{"shredding", 50},
+		{"keying", 50},
 		--{"keynote", 1},
-		{"waiting", 1},
-		{"stunting", 1},
-		{"gaming", 1},
-		{"swimming", 1},
-		{"grumbling", 1},
-		{"flirting", 1},
-		{"something", 1},
-		{"ummm", 1},
+		{"waiting", 25},
+		{"stunting", 25},
+		{"gaming", 25},
+		{"swimming", 25},
+		{"grumbling", 25},
+		{"flirting", 25},
+		{"something", 25},
+		{"ummm", 25},
 	},
 	{
-		{"title screen", 10},	-- row 3
-		{"door mat", 30},
-		{"daycare", 50},
-		{"work", 1},
+		{"title screen", 100},	-- row 3
+		{"door mat", 100},
+		{"daycare", 100},
+		{"work", 50},
 		{"c-store", 50},
-		{"Denny's", 1},
-		{"guitar center", 1},
-		{"parking lot", 1},
-		{"lock smith", 1},
-		{"barista", 1},
-		{"playdate", 1},
-		{"DMV", 1},
-		{"future", 1},
-		{"bathroom", 1},
-		{"dog park", 1},
-		{"Alps", 1},
-		{"past", 1},
-		{"somewhere", 1},
-		{"hmmm", 1},
+		{"Denny's", 50},
+		{"guitar center", 50},
+		{"parking lot", 50},
+		{"lock smith", 50},
+		{"barista", 25},
+		{"playdate", 25},
+		{"DMV", 25},
+		{"future", 25},
+		{"bathroom", 25},
+		{"dog park", 25},
+		{"Alps", 25},
+		{"past", 25},
+		{"somewhere", 25},
+		{"hmmm", 25},
 	}
 }
 
@@ -206,6 +206,14 @@ function scene:init()
 
 	scene.timer = SELECTION_TIME
 
+	scene:ShuffleInPlace(levelDataWords[1])
+	scene:ShuffleInPlace(levelDataWords[2])
+	scene:ShuffleInPlace(levelDataWords[3])
+
+	scene:ShuffleInPlace(levelDataWordsKeys[1])
+	scene:ShuffleInPlace(levelDataWordsKeys[2])
+	scene:ShuffleInPlace(levelDataWordsKeys[3])
+
 	gfx.setImageDrawMode(gfx.kDrawModeCopy)
 	
 	for i=1, NUMBER_OF_SCROLLING_WORDS, 1 do
@@ -243,6 +251,14 @@ function scene:init()
 	SetPrompts(signsText)
 	ClearChosenWords()
 end
+
+function scene:ShuffleInPlace(t)
+    for i = #t, 2, -1 do
+        local j = math.random(i)
+        t[i], t[j] = t[j], t[i]
+    end
+end
+
 
 function scene:newWord()
 
