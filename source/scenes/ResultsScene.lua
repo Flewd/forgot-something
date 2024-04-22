@@ -34,6 +34,9 @@ local scene = ResultsScene
 -- This is the background color of this scene.
 scene.backgroundColor = Graphics.kColorWhite
 
+local SCROLL_SPEED = 0.5
+local MIN_SCROLL = 0
+local MAX_SCROLL = 480
 
 -- This runs when your scene's object is created, which is the
 -- first thing that happens when transitining away from another scene.
@@ -46,7 +49,9 @@ function scene:init()
     -- kVariantItalic
 
 	scene.brainBg = Actor("assets/images/endcardGood", 0, 0)
+	scene.creditsBg = Actor("assets/images/credits", 0, 240)
 
+	scene.scroll = 0
 	--scene.background = Graphics.image.new("assets/images/end1")
 		
 	-- SceneTemplate.variable2 = "string"
@@ -83,6 +88,8 @@ function scene:drawBackground()
 	--print(words[1][1])
 
 	scene.brainBg:render()
+	scene.creditsBg:render()
+
 	local word = words[1]
 	local prompt = prompts[1]
 
@@ -92,7 +99,7 @@ function scene:drawBackground()
 
 	local screenWidth = 200
 	local wordDistance = 60
-	local y = 25
+	local y = 25 + scene.scroll
 
 	gfx.setFont(scene.font, gfx.font.kVariantNormal)
 
@@ -226,6 +233,21 @@ scene.inputHandler = {
 	--
 	cranked = function(change, acceleratedChange)	-- Runs when the crank is rotated. See Playdate SDK documentation for details.
 		-- Your code here
+		local amount = (change * SCROLL_SPEED)
+		scene.scroll = scene.scroll + amount
+
+
+		if scene.scroll > MAX_SCROLL then
+			scene.scroll = MAX_SCROLL
+		elseif scene.scroll < MIN_SCROLL then
+			scene.scroll = MIN_SCROLL
+		end
+
+		
+
+		scene.brainBg.posY = scene.brainBg.posY + amount
+		scene.creditsBg.posY = scene.creditsBg.posY + amount
+
 	end,
 	crankDocked = function()						-- Runs once when when crank is docked.
 		-- Your code here

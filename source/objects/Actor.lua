@@ -20,13 +20,16 @@ end
 
 function Actor:render()
    -- self.image:draw(self.posX,self.posY)
+    if self.scale ~= 1 then
+        local w, h = self.image:getSize()
 
-    local w, h = self.image:getSize()
+        local widthDiff = (w * self.scale) - w
+        local heightDiff = (h * self.scale) - h
 
-    local widthDiff = (w * self.scale) - w
-    local heightDiff = (h * self.scale) - h
-
-    self.image:drawScaled(self.posX - (widthDiff/self.scaleAnchorX) ,self.posY - (heightDiff/self.scaleAnchorY), self.scale)
+        self.image:drawScaled(self.posX - (widthDiff/self.scaleAnchorX) ,self.posY - (heightDiff/self.scaleAnchorY), self.scale)
+    else
+        self.image:draw(self.posX, self.posY)
+    end
 
 
 --    self.loop.delay = self.frameTime

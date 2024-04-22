@@ -121,16 +121,17 @@ function scene:init()
 	gfx.setFont(scene.wordFont, gfx.font.kVariantNormal)
 
 	scene.actors = {}
-	scene.brainBg = Actor("assets/images/bgBrain02", 0, 0)
-	scene.clock = Actor("assets/images/clock", -10, 180)
+	scene.brainBg = Actor("assets/images/bgBrainMega", 0, 0)
+	--scene.brainBgMask = Actor("assets/images/bgBrain01", 0, 0)
+	--scene.clock = Actor("assets/images/clock", -10, 180)
 
 	scene.wheel = AnimatedActor("assets/images/wheel-table-400-240",0,0,100)
 	scene.wheel.pause = true;
 
-	scene.ham = AnimatedActor("assets/images/hamsteridle-table-56-80",170,150,500)
+	scene.ham = AnimatedActor("assets/images/hamsteridle-table-56-75",170,160,500)
 	scene.ham.useVelocity = false
 	--scene.ham = AnimatedActor("assets/images/hamster-table-116-78",150,150,100)
-	scene.track1 = AnimatedActor("assets/images/activeSign-table-303-115",50,0,100)
+	scene.track1 = AnimatedActor("assets/images/activeSign-table-301-147",50,0,100)
 
 	scene.sign = Actor(signs[1], 110, 10)
 
@@ -150,7 +151,7 @@ function scene:newWord()
 	local xPos = scene:leftMostWordPos() - WORD_GAP
 
 	if table.getsize(scene.activeWords) <= 0 then 
-		xPos = 0;
+		xPos = -50;
 	end
 
 	table.insert(scene.activeWords, Word(text, xPos, 80, score));
@@ -205,8 +206,8 @@ function scene:update()
 			
 			scene.ham:setImageTable("assets/images/hamster-table-116-78")
 			scene.ham.useVelocity = true
-			scene.ham.posY = 150
-			scene.ham.posX = 150
+			scene.ham.posY = 154
+			scene.ham.posX = 142
 
 			scene.timer = SELECTION_TIME
 		end
@@ -247,22 +248,26 @@ function scene:update()
 			scene:newWord()
 		end
 	end
-	
-
-
-	
+		
 end
 
 -- This runs once per frame, and is meant for drawing code.
 function scene:drawBackground()
 	scene.super.drawBackground(self)
-	scene.brainBg:render()
+	
+	
+	
 
 	gfx.setFont(scene.wordFont, gfx.font.kVariantNormal)
 	for i=1, #scene.activeWords do
 		local word = scene.activeWords[i]
 		word:render()
 	end
+
+	scene.brainBg:render()
+
+	--scene.brainBgMask:render()
+	
 
 	for i=1, #scene.actors do
 		scene.actors[i]:setVelocity(scene.velocity)
@@ -275,9 +280,9 @@ function scene:drawBackground()
 
 	scene.sign:render()
 
-	scene.clock:render()
+	--scene.clock:render()
 	--gfx.setFont(scene.timerFont, gfx.font.kVariantNormal)
-	gfx.drawText(math.floor(scene.timer), 10, 205)
+	gfx.drawText(math.floor(scene.timer), 13, 205)
 
 end
 
@@ -358,7 +363,6 @@ function scene:forceLockInWord()
 		scene.timer = SELECTION_TIME
 		scene.velocity = MIN_VELOCITY
 	end
-
 end
 
 function scene:tryLockInWord()
