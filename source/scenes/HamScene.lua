@@ -193,7 +193,7 @@ function scene:init()
 
 	scene.score = 0
 	scene.crankAcceleration = 0.05
-	scene.crankDeceleration = 0.01
+	scene.crankDeceleration = 0.005
 	scene.win = false
 
 	scene.velocity = 0
