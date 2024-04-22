@@ -16,8 +16,11 @@ function AnimatedActor:init(imageTablePath, x, y, frameTime)
 end
 
 function AnimatedActor:update()
+    
+end
 
-
+function AnimatedActor:setFrame(value)
+    self.loop.frame = value
 end
 
 function AnimatedActor:setImageTable(imageTablePath)

@@ -18,6 +18,11 @@ function Actor:update()
 
 end
 
+function Actor:setImage(imagePath)  -- added this but didn't test it
+    self.imagePath = imagePath
+    self.image = gfx.image.new(imagePath)
+end
+
 function Actor:render()
    -- self.image:draw(self.posX,self.posY)
     if self.scale ~= 1 then

@@ -132,6 +132,7 @@ function scene:init()
 	scene.ham.useVelocity = false
 	--scene.ham = AnimatedActor("assets/images/hamster-table-116-78",150,150,100)
 	scene.track1 = AnimatedActor("assets/images/activeSign-table-301-147",50,0,100)
+	scene.arrows = AnimatedActor("assets/images/arrowSpinBlack-table-42-42",360,200,150)
 
 	scene.sign = Actor(signs[1], 110, 10)
 
@@ -254,9 +255,6 @@ end
 -- This runs once per frame, and is meant for drawing code.
 function scene:drawBackground()
 	scene.super.drawBackground(self)
-	
-	
-	
 
 	gfx.setFont(scene.wordFont, gfx.font.kVariantNormal)
 	for i=1, #scene.activeWords do
@@ -284,6 +282,10 @@ function scene:drawBackground()
 	--gfx.setFont(scene.timerFont, gfx.font.kVariantNormal)
 	gfx.drawText(math.floor(scene.timer), 13, 205)
 
+	if scene.startRunning == false then
+		scene.arrows:render()
+	end
+	
 end
 
 function scene:waitSeconds(seconds)

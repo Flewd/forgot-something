@@ -36,7 +36,13 @@ scene.backgroundColor = Graphics.kColorWhite
 
 local SCROLL_SPEED = 0.5
 local MIN_SCROLL = 0
-local MAX_SCROLL = 480
+local MAX_SCROLL = 239
+
+local FILL_FRAME_COUT = 12
+local OVERSCROLL_SPEED = 0.1
+
+local CARD1_START = 0
+local CARD2_START = 240
 
 -- This runs when your scene's object is created, which is the
 -- first thing that happens when transitining away from another scene.
@@ -48,8 +54,12 @@ function scene:init()
     -- kVariantBold
     -- kVariantItalic
 
-	scene.brainBg = Actor("assets/images/endcardGood", 0, 0)
-	scene.creditsBg = Actor("assets/images/credits", 0, 240)
+	scene.overscroll = 0
+	scene.endCard = Actor("assets/images/endcardGood", 0, CARD1_START)
+	scene.creditsBg = Actor("assets/images/credits", 0, CARD2_START)
+
+	scene.arrows = AnimatedActor("assets/images/arrowSpin-table-42-42",360,200,150)
+	scene.arrowsFill = AnimatedActor("assets/images/replaySpin-table-42-42",360,200,9999999)
 
 	scene.scroll = 0
 	--scene.background = Graphics.image.new("assets/images/end1")
@@ -74,6 +84,9 @@ end
 function scene:update()
 	scene.super.update(self)
 	-- Your code here
+	if scene.overscroll >= FILL_FRAME_COUT then
+		Noble.transition(IntroCutscene, nil, Noble.Transition.DIP_TO_BLACK);
+	end
 end
 
 -- This runs once per frame, and is meant for drawing code.
@@ -87,8 +100,15 @@ function scene:drawBackground()
 	local prompts = GetPrompts()
 	--print(words[1][1])
 
-	scene.brainBg:render()
+	scene.endCard:render()
 	scene.creditsBg:render()
+
+	if scene.scroll == MAX_SCROLL then
+		scene.arrowsFill:setFrame(math.floor(scene.overscroll))
+		scene.arrowsFill:render()
+	else
+		scene.arrows:render()
+	end
 
 	local word = words[1]
 	local prompt = prompts[1]
@@ -99,7 +119,7 @@ function scene:drawBackground()
 
 	local screenWidth = 200
 	local wordDistance = 60
-	local y = 25 + scene.scroll
+	local y = 25 - scene.scroll
 
 	gfx.setFont(scene.font, gfx.font.kVariantNormal)
 
@@ -154,7 +174,6 @@ scene.inputHandler = {
 	--
 	AButtonDown = function()			-- Runs once when button is pressed.
 		-- Your code here
-		Noble.transition(IntroCutscene, nil, Noble.Transition.DIP_TO_BLACK);
 	end,
 	AButtonHold = function()			-- Runs every frame while the player is holding button down.
 		-- Your code here
@@ -232,21 +251,36 @@ scene.inputHandler = {
 	-- Crank
 	--
 	cranked = function(change, acceleratedChange)	-- Runs when the crank is rotated. See Playdate SDK documentation for details.
-		-- Your code here
-		local amount = (change * SCROLL_SPEED)
-		scene.scroll = scene.scroll + amount
 
+		if scene.scroll >= MAX_SCROLL then
+	
+			local amount = (change * SCROLL_SPEED)
+			scene.overscroll = scene.overscroll + (amount * OVERSCROLL_SPEED)
 
-		if scene.scroll > MAX_SCROLL then
-			scene.scroll = MAX_SCROLL
-		elseif scene.scroll < MIN_SCROLL then
-			scene.scroll = MIN_SCROLL
+			if scene.overscroll < 0 then
+				scene.scroll = MAX_SCROLL - 1
+				scene.overscroll = 0
+			end
+
+			if scene.overscroll > FILL_FRAME_COUT then
+				scene.overscroll = FILL_FRAME_COUT
+			end
+
+		else
+			local amount = (change * SCROLL_SPEED)
+			
+			scene.scroll = scene.scroll + amount
+
+			if scene.scroll > MAX_SCROLL then
+				scene.scroll = MAX_SCROLL
+			elseif scene.scroll < MIN_SCROLL then
+				scene.scroll = MIN_SCROLL
+			end
+
+			scene.endCard.posY = CARD1_START - scene.scroll
+			scene.creditsBg.posY = CARD2_START - scene.scroll
+
 		end
-
-		
-
-		scene.brainBg.posY = scene.brainBg.posY + amount
-		scene.creditsBg.posY = scene.creditsBg.posY + amount
 
 	end,
 	crankDocked = function()						-- Runs once when when crank is docked.
