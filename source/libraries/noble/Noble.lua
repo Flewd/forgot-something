@@ -113,9 +113,9 @@ function Noble.new(StartingScene, __launcherTransitionDuration, __launcherTransi
 	end
 
 	-- These values are used if not set.
-	local launcherTransition =			__launcherTransition or defaultConfiguration.defaultTransition
-	local launcherTransitionDuration =	__launcherTransitionDuration or 1.5
-	local launcherTransitionProperties =__launcherTransitionProperties or {}
+	local launcherTransition =			Noble.Transition.CUT--__launcherTransition or defaultConfiguration.defaultTransition
+	local launcherTransitionDuration =	0 --__launcherTransitionDuration or 1.5
+	local launcherTransitionProperties = {} --__launcherTransitionProperties or {}
 
 	-- Now that everything is set, let's-a go!
 	engineInitialized = true
