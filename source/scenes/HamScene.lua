@@ -13,7 +13,7 @@ local levelDataPhrase = "You forgot your _ while _ at the _"
 
 local levelDataWords = {
 	{
-		{"apple", 100},
+		{"apple", 100},	-- NOUN
 		{"horse", 100},	-- row 1
 		{"pet worm", 100},
 		{"mac", 50},
@@ -39,7 +39,7 @@ local levelDataWords = {
 		
 	},
 	{
-		{"picknicking", 100},	-- row 2
+		{"picknicking", 100},	-- row 2	VERB
 		{"baking", 100},
 		{"boot scootin", 50},
 		{"moseying", 50},
@@ -59,7 +59,7 @@ local levelDataWords = {
 		{"ummm", 25},
 	},
 	{
-		{"orchard", 100},	-- row 3
+		{"orchard", 100},	-- row 3	LOCATION
 		{"park", 100},
 		{"Applebees", 50},
 		{"saloon", 100},
@@ -79,7 +79,7 @@ local levelDataWords = {
 
 local levelDataWordsKeys = {
 	{
-		{"keys", 100},	-- row 1
+		{"keys", 100},	-- row 1 NOUN
 		{"car", 100},
 		{"groceries", 100},
 		{"geese", 50},
@@ -105,14 +105,13 @@ local levelDataWordsKeys = {
 		{"uhhh", 25},
 	},
 	{
-		{"thinking", 100},	-- row 2
+		{"thinking", 100},	-- row 2 VERB
 		{"holding them", 100},
 		{"leaving", 100},
 		{"dancing", 50},
 		{"shopping", 50},
 		{"shredding", 50},
 		{"keying", 50},
-		--{"keynote", 1},
 		{"waiting", 25},
 		{"stunting", 25},
 		{"gaming", 25},
@@ -123,7 +122,7 @@ local levelDataWordsKeys = {
 		{"ummm", 25},
 	},
 	{
-		{"title screen", 100},	-- row 3
+		{"title screen", 100},	-- row 3 LOCATION
 		{"door mat", 100},
 		{"daycare", 100},
 		{"work", 50},
@@ -183,7 +182,7 @@ local CONFIRM_START = SCREEN_WIDTH/2 - CONFIRM_WIDTH/2
 local CONFIRM_END = SCREEN_WIDTH/2 + CONFIRM_WIDTH/2
 
 local MIN_VELOCITY = 1
-local START_VELOCITY = 20
+local START_VELOCITY = 15
 local MAX_VELOCITY = 30
 
 -- This runs when your scene's object is created, which is the
@@ -344,6 +343,7 @@ function scene:update()
 			scene.ham.posX = 142
 
 			scene.timer = SELECTION_TIME
+			scene.velocity = START_VELOCITY / 2
 		end
 
 		scene.timer = scene.timer - DeltaTimeSeconds()
