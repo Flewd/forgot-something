@@ -28,6 +28,9 @@ local TITLE_TARGET = -150
 local PERSON_START = 58
 local PERSON_TARGET = -20
 
+local PERSON_X_START = 50
+local PERSON_X_TARGET = 35
+
 local ARM_START = 240
 local ARM_TARGET = 80
 
@@ -38,7 +41,7 @@ local ZOOM_SPEED = 0.005
 function scene:init()
 	scene.super.init(self)
 	scene.title = Actor("assets/images/titleText_black", 20, TITLE_START)
-	scene.person = Actor("assets/images/head", 50, PERSON_START)
+	scene.person = Actor("assets/images/head", PERSON_X_START, PERSON_START)
 
 	local isApple = IsApple()
 
@@ -132,6 +135,16 @@ scene.inputHandler = {
 					scene.arm.posY = ARM_TARGET
 				end
 
+--[[
+
+			elseif scene.person.posX > PERSON_X_TARGET then
+				scene.person.posX = scene.person.posX - change
+				-- clamp
+				if scene.person.posX < PERSON_X_TARGET then 
+					scene.person.posX = PERSON_X_TARGET
+				end
+--]]
+
 			elseif scene.person.scale < ZOOM_TARGET then
 				scene.person.scale = scene.person.scale + (change * ZOOM_SPEED)
 				scene.arm.scale = scene.person.scale
@@ -154,12 +167,21 @@ scene.inputHandler = {
 					scene.person.scale = ZOOM_START
 					scene.arm.scale = scene.person.scale
 				end
+--[[
+			elseif scene.person.posX < PERSON_X_START then
+				scene.person.posX = scene.person.posX - change
+				-- clamp
+				if scene.person.posX > PERSON_X_START then 
+					scene.person.posX = PERSON_X_START
+				end
+--]]
 			elseif scene.arm.posY < ARM_START then
 				scene.arm.posY = scene.arm.posY - change
 				-- clamp
 				if scene.arm.posY > ARM_START then 
 					scene.arm.posY = ARM_START
 				end
+
 			elseif scene.person.posY < PERSON_START then
 				scene.person.posY = scene.person.posY - change
 				-- clamp

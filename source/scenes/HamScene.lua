@@ -193,6 +193,7 @@ function scene:init()
 
 	scene.score = 0
 	scene.crankAcceleration = 0.05
+	scene.crankDeceleration = 0.01
 	scene.win = false
 
 	scene.velocity = 0
@@ -531,7 +532,12 @@ scene.inputHandler = {
 	-- Crank
 	cranked = function(change, acceleratedChange)	-- Runs when the crank is rotated. See Playdate SDK documentation for details.
 		scene.score = scene.score + change
-		scene.velocity = scene.velocity + (scene.crankAcceleration * change)
+
+		if change > 0 then
+			scene.velocity = scene.velocity + (scene.crankAcceleration * change)
+		else
+			scene.velocity = scene.velocity + (scene.crankDeceleration * change)
+		end
 
 		if scene.velocity < MIN_VELOCITY then
 			scene.velocity = MIN_VELOCITY
