@@ -13,9 +13,9 @@ local levelDataPhrase = "You forgot your _ while _ at the _"
 
 local levelDataWords = {
 	{
-		{"Apple", 10},	-- row 1
-		{"Junk1", 1},
-		{"Junk2", 1},
+		{"Apple", 100},	-- row 1
+		{"Junk1", 50},
+		{"Junk2", 25},
 		{"Junk3", 1},
 		{"Junk4", 1},
 		{"Keys", 30},
@@ -133,6 +133,7 @@ function scene:init()
 	--scene.ham = AnimatedActor("assets/images/hamster-table-116-78",150,150,100)
 	scene.track1 = AnimatedActor("assets/images/activeSign-table-301-147",50,0,100)
 	scene.arrows = AnimatedActor("assets/images/arrowSpinBlack-table-42-42",360,200,150)
+	scene.button = AnimatedActor("assets/images/buttonB-table-56-48",262,110,600)
 
 	scene.sign = Actor(signs[1], 110, 10)
 
@@ -284,6 +285,8 @@ function scene:drawBackground()
 
 	if scene.startRunning == false then
 		scene.arrows:render()
+	else
+		scene.button:render()	
 	end
 	
 end

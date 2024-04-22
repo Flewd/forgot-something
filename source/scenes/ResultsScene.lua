@@ -39,10 +39,14 @@ local MIN_SCROLL = 0
 local MAX_SCROLL = 239
 
 local FILL_FRAME_COUT = 12
-local OVERSCROLL_SPEED = 0.1
+local OVERSCROLL_SPEED = 0.05
 
 local CARD1_START = 0
 local CARD2_START = 240
+
+local BEST = 300
+local MID = 150
+local BAD = 0
 
 -- This runs when your scene's object is created, which is the
 -- first thing that happens when transitining away from another scene.
